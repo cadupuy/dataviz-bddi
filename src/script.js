@@ -9,17 +9,8 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import * as dat from "lil-gui";
 import { gsap } from "gsap";
 import data from "../data.json";
-
-// Debug
-const gui = new dat.GUI();
-const debugObject = {};
-debugObject.clearColor = "#FEBCBC";
-gui.addColor(debugObject, "clearColor").onChange(() => {
-  renderer.setClearColor(debugObject.clearColor);
-});
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -193,14 +184,6 @@ let cameraPosition;
 
 const mouse = new THREE.Vector2();
 
-function onMouseMove(event) {
-  // calculate mouse position in normalized device coordinates
-  // (-1 to +1) for both components
-
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
-
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
   toto.innerHTML = (itemsLoaded / itemsTotal) * 100 + "%";
@@ -216,10 +199,11 @@ loadingManager.onLoad = function () {
     loadingBarElement.classList.add("ended");
 
     loadingBarElement.style.transform = "";
-    sceneReady = true;
+    toto.classList.add("hidden");
+
     output.classList.add("visible");
     range.classList.add("visible");
-  }, 500);
+  }, 300);
 };
 
 loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
@@ -261,7 +245,6 @@ gltfLoader.load("/models/final.glb", (gltf) => {
 
 // Ambient light
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
 scene.add(ambientLight);
 
 // Directional light
@@ -270,10 +253,6 @@ directionalLight.position.set(20, 90, 10);
 
 const helper = new THREE.DirectionalLightHelper(directionalLight, 5);
 scene.add(helper);
-gui.add(directionalLight, "intensity").min(0).max(4).step(0.001);
-gui.add(directionalLight.position, "x").min(-5).max(5).step(0.001);
-gui.add(directionalLight.position, "y").min(-5).max(5).step(0.001);
-gui.add(directionalLight.position, "z").min(-5).max(5).step(0.001);
 scene.add(directionalLight);
 
 // Geometry
@@ -288,9 +267,6 @@ const FloorMaterial = new THREE.MeshStandardMaterial();
 FloorMaterial.roughness = 0.7;
 
 const buildingMaterial = new THREE.MeshStandardMaterial({ color: "red" });
-
-gui.add(FloorMaterial, "metalness").min(0).max(1).step(0.001);
-gui.add(FloorMaterial, "roughness").min(0).max(1).step(0.001);
 
 /**
  * Input Range
@@ -339,6 +315,26 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
+
+let intersects;
+
+// window.addEventListener("click", (event) => {
+//   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+//   for (let i = 0; i < intersects.length; i++) {
+//     if (intersects[i].object.name) {
+//       let test = intersects[0].point.x;
+//       let testz = intersects[0].point.z;
+
+//       gsap.fromTo(
+//         camera.position,
+//         { x: camera.position.x, z: camera.position.z },
+//         { duration: 2, x: test, y: 70, z: testz }
+//       );
+//     }
+//   }
+// });
 
 window.addEventListener("resize", () => {
   // Update sizes
@@ -425,19 +421,13 @@ const tick = () => {
   // }
 
   // update the picking ray with the camera and mouse position
-  raycaster.setFromCamera(mouse, camera);
+  // raycaster.setFromCamera(mouse, camera);
 
   // calculate objects intersecting the picking ray
-  const intersects = raycaster.intersectObjects(scene.children);
-
-  for (let i = 0; i < intersects.length; i++) {
-    console.log(intersects[i]);
-  }
+  // intersects = raycaster.intersectObjects(scene.children);
 
   // Render
   renderer.render(scene, camera);
-
-  window.addEventListener("mousemove", onMouseMove, false);
 
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);

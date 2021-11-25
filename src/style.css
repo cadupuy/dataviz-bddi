@@ -15,54 +15,73 @@ body {
   outline: none;
 }
 
-.toto {
+.pourcent {
   position: absolute;
   top: 55%;
-  left: 90%;
+  left: 85%;
   color: white;
   font-size: 60px;
   font-family: "Space Grotesk", sans-serif;
+  transition-delay: 0.5s;
   transition: all 0.7s ease-in-out;
 }
 
-.toto.hidden {
+.pourcent.hidden {
   opacity: 0;
 }
 
-.tata {
+.controlsContainer {
   position: absolute;
-  top: 5%;
-  line-height: 80px;
-  left: 65%;
+  display: flex;
+  left: 80px;
+  top: 40px;
+  transition: all 0.7s ease-in;
+  transition-delay: 0.8s;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  line-height: 30px;
   color: white;
-  font-size: 100px;
-  font-family: "Space Grotesk", sans-serif;
-  transition: all 0.3s ease;
-}
-
-.tata.hidden {
+  margin-bottom: 30px;
+  visibility: hidden;
   opacity: 0;
+  font-size: 30px;
+  font-family: "Space Grotesk", sans-serif;
+  transition: all 0.7s ease-in;
+  transition-delay: 0.8s;
+  text-align: center;
 }
 
-/* LOADER */
+.title.visible {
+  opacity: 1;
+  visibility: visible;
+}
 
 /* INPUT */
 
 .range {
-  position: absolute;
-  top: 20%;
-  left: 5%;
-
+  opacity: 0;
+  visibility: hidden;
   box-sizing: border-box;
-  /* width: 100%;
-  height: 100%; */
   background: "#e6e6e6";
-  border-radius: 100px;
+  transition: all 0.7s ease-in;
+  transition-delay: 0.8s;
+}
+
+.range.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 form {
-  max-width: 500px;
-  min-width: 320px;
+  position: relative;
+}
+
+.range-output {
+  margin-top: 30px;
 }
 
 input[type="range"] {
@@ -87,34 +106,65 @@ input[type="range"][orient="vertical"] {
   writing-mode: bt-lr; /* IE */
   -webkit-appearance: slider-vertical; /* WebKit */
   width: 8px;
-  height: 175px;
+  height: 650px;
   padding: 0 5px;
 }
 
-.range-output {
+/* .range-output {
   position: absolute;
-  top: -30%;
-  left: 5%;
-}
+  top: 100%;
+  margin-top: 20px;
+} */
 
 .output {
   color: white;
-  font-size: 60px;
+  font-size: 40px;
   font-family: "Space Grotesk", sans-serif;
+  font-weight: bold;
+  margin-left: -32px;
+}
+
+.content {
+  position: absolute;
+  top: 50px;
+  right: 100px;
+  color: white;
+  visibility: hidden;
+  font-size: 10px;
+  font-family: "Space Grotesk", sans-serif;
+  opacity: 0;
+  transition: all 0.7s ease-in;
+  transition-delay: 0.8s;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.content.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.m2 {
   font-weight: bold;
 }
 
 .author {
   position: absolute;
-  top: 95%;
-  right: 80%;
-  color: white;
-  transition: all 0.3s ease-in-out;
+  bottom: 30px;
+  right: 50px;
+  color: rgb(109, 109, 109);
+  visibility: hidden;
+  font-size: 10px;
   font-family: "Space Grotesk", sans-serif;
+  opacity: 0;
+  transition: all 0.7s ease-in;
+  transition-delay: 0.8s;
 }
 
-.visible {
+.author.visible {
   opacity: 1;
+  visibility: visible;
 }
 
 /* POINTS */

@@ -14,120 +14,37 @@
   <body>
     <canvas class="webgl"></canvas>
 
+    <h2 class="pourcent">0</h2>
+
     <!-- <input class="range" type="range" min="0" max="25" step="1" value="0" /> -->
     <div class="loading-bar"></div>
 
-    <h1 class="tata">La flambée de Paris</h1>
+    <div class="controlsContainer">
+      <h1 class="title">
+        Flambée <br />
+        de Paname
+      </h1>
 
-    <h2 class="toto">0</h2>
+      <form oninput="output.value = Math.round(range.valueAsNumber + 1996)">
+        <div class="range">
+          <input class="range-input" orient="vertical" name="range" type="range" step="1" min="0" max="25" value="0" />
 
-    <p class="author">Designed by Pierre-Andréas Durant & Developed by Charles-Antoine Dupuy</p>
-    <form oninput="output.value = Math.round(range.valueAsNumber + 1996)">
-      <div class="range">
-        <input class="range-input" orient="vertical" name="range" type="range" step="1" min="0" max="25" value="0" />
-        <div class="range-output">
-          <output class="output" name="output" for="range"> 1996 </output>
+          <div class="range-output">
+            <output class="output" name="output" for="range"> 1996 </output>
+          </div>
         </div>
-      </div>
-    </form>
-
-    <div class="point point-0">
-      <div class="label">1</div>
-      <div class="text">Lorem ipsum, dolor sit amet consectetur adipisicing elit</div>
+      </form>
     </div>
 
-    <div class="point point-1">
-      <div class="label">2</div>
-      <div class="text">Ventilation with air purifier and detection of environment toxicity.</div>
-    </div>
-    <div class="point point-2">
-      <div class="label">3</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
+    <div class="content">
+      <p>Arrondissement <span class="arrondissement"></span></p>
+      <p>Prix du m2 <span class="m2"></span></p>
+      <p>Nombre d'habitants dans l'arrondissement <span class="population"></span></p>
     </div>
 
-    <div class="point point-3">
-      <div class="label">4</div>
-      <div class="text">csc supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-4">
-      <div class="label">5</div>
-      <div class="text">Cameras supporting night vision and heat vision witzdzdzdh automatic adjustment.</div>
-    </div>
-
-    <div class="point point-5">
-      <div class="label">6</div>
-      <div class="text">Cameras supporting night vision and heat vision zdzdzdwith automatic adjustment.</div>
-    </div>
-
-    <div class="point point-6">
-      <div class="label">7</div>
-      <div class="text">Cameras supporting night vision and heat vision wdzdzdzith automatic adjustment.</div>
-    </div>
-
-    <div class="point point-7">
-      <div class="label">8</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-8">
-      <div class="label">9</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-9">
-      <div class="label">10</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-10">
-      <div class="label">11</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-11">
-      <div class="label">12</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-12">
-      <div class="label">13</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-13">
-      <div class="label">14</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-14">
-      <div class="label">15</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-15">
-      <div class="label">16</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-16">
-      <div class="label">17</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-17">
-      <div class="label">18</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-18">
-      <div class="label">19</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
-
-    <div class="point point-19">
-      <div class="label">20</div>
-      <div class="text">Cameras supporting night vision and heat vision with automatic adjustment.</div>
-    </div>
+    <footer class="author">
+      Designed by Pierre-Andréas Durant & <br />
+      Developed by Charles-Antoine Dupuy
+    </footer>
   </body>
 </html>

@@ -1,9 +1,3 @@
-// import "./style.css";
-
-// import Experience from "./Experience/Experience.js";
-
-// const experience = new Experience(document.querySelector("canvas.webgl"));
-
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -15,89 +9,99 @@ import data from "../data.json";
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
+const pointer = new THREE.Vector2();
+
+let content = document.querySelector(".content");
+let arrondissement = document.querySelector(".arrondissement");
+let population = document.querySelector(".population");
+let m2 = document.querySelector(".m2");
+
 // Scene
 const scene = new THREE.Scene();
 
+let INTERSECTED;
+let selected;
+
 const positions = [
   {
-    x: 10,
-    z: -25,
-  },
-  {
-    x: 30,
-    z: -35,
-  },
-  {
-    x: 50,
-    z: -25,
-  },
-  {
-    x: 50,
-    z: -0,
-  },
-  {
-    x: 40,
-    z: 20,
-  },
-  {
-    x: 10,
-    z: 10,
-  },
-  {
-    x: -20,
-    z: -5,
-  },
-  {
-    x: -20,
-    z: -40,
-  },
-  {
-    x: 15,
-    z: -55,
-  },
-  {
-    x: 50,
-    z: -50,
-  },
-  {
-    x: 75,
-    z: -20,
-  },
-  {
-    x: 80,
-    z: 15,
-  },
-  {
-    x: 50,
-    z: 55,
-  },
-  {
-    x: 10,
-    z: 50,
-  },
-  {
-    x: -50,
-    z: 30,
-  },
-  {
-    x: -90,
+    x: 0,
     z: 0,
   },
   {
-    x: -20,
-    z: -75,
+    x: 7,
+    z: -17,
   },
   {
-    x: 35,
-    z: -90,
+    x: 30,
+    z: 0,
   },
   {
-    x: 80,
-    z: -75,
+    x: 40,
+    z: 25,
   },
   {
-    x: 105,
+    x: 20,
+    z: 40,
+  },
+  {
+    x: 0,
+    z: 35,
+  },
+  {
+    x: -30,
+    z: 20,
+  },
+  {
+    x: -30,
+    z: -15,
+  },
+  {
+    x: 5,
+    z: -35,
+  },
+  {
+    x: 40,
     z: -25,
+  },
+  {
+    x: 65,
+    z: 5,
+  },
+  {
+    x: 70,
+    z: 35,
+  },
+  {
+    x: 40,
+    z: 80,
+  },
+  {
+    x: 0,
+    z: 75,
+  },
+  {
+    x: -60,
+    z: 55,
+  },
+  {
+    x: -100,
+    z: 25,
+  },
+  {
+    x: -30,
+    z: -50,
+  },
+  {
+    x: 25,
+    z: -65,
+  },
+  {
+    x: 70,
+    z: -50,
+  },
+  {
+    x: 95,
+    z: 0,
   },
 ];
 
@@ -116,8 +120,8 @@ var myGradient = new THREE.Mesh(
   new THREE.PlaneBufferGeometry(2, 2, 1, 1),
   new THREE.ShaderMaterial({
     uniforms: {
-      uColorA: { value: new THREE.Color("#c9d9ff") },
-      uColorB: { value: new THREE.Color("#f89b9e") },
+      uColorA: { value: new THREE.Color("#000000") },
+      uColorB: { value: new THREE.Color("#7ed6df") },
     },
     vertexShader: `varying vec2 vUv;
     void main(){
@@ -140,9 +144,6 @@ var myGradient = new THREE.Mesh(
 myGradient.material.depthWrite = false;
 myGradient.renderOrder = -99999;
 scene.add(myGradient);
-
-// Raycaster
-const raycaster = new THREE.Raycaster();
 
 // Loading
 
@@ -173,21 +174,18 @@ const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial);
 scene.add(overlay);
 
 const loadingBarElement = document.querySelector(".loading-bar");
-let sceneReady = false;
 
-const button = document.querySelector("h1");
 const author = document.querySelector(".author");
-const output = document.querySelector("output");
-const toto = document.querySelector(".toto");
-
-let cameraPosition;
-
-const mouse = new THREE.Vector2();
+const range = document.querySelector(".range");
+const pourcent = document.querySelector(".pourcent");
+const title = document.querySelector(".title");
+const contentText = document.querySelector(".content");
 
 const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
-  toto.innerHTML = (itemsLoaded / itemsTotal) * 100 + "%";
-  console.log((itemsLoaded / itemsTotal) * 100 + "%");
+  let pourcentCalcul = (itemsLoaded / itemsTotal) * 100;
+  let pourcentCalculRounded = Number(Math.round(pourcentCalcul));
+  pourcent.innerHTML = pourcentCalculRounded.toFixed(0) + "%";
 };
 
 loadingManager.onLoad = function () {
@@ -197,25 +195,31 @@ loadingManager.onLoad = function () {
     gsap.to(overlayMaterial.uniforms.uAlpha, { duration: 3, value: 0, delay: 1 });
 
     loadingBarElement.classList.add("ended");
-
     loadingBarElement.style.transform = "";
-    toto.classList.add("hidden");
+    pourcent.classList.add("hidden");
+    title.classList.add("visible");
+    contentText.classList.add("visible");
 
-    output.classList.add("visible");
     range.classList.add("visible");
+    author.classList.add("visible");
   }, 300);
 };
 
 loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
   const progressRatio = itemsLoaded / itemsTotal;
   loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-  toto.innerHTML = (itemsLoaded / itemsTotal) * 100 + "%";
-  console.log((itemsLoaded / itemsTotal) * 100 + "%");
+  pourcent.innerHTML = (itemsLoaded / itemsTotal) * 100 + "%";
 };
 
 loadingManager.onError = function (url) {
   console.log("There was an error loading " + url);
 };
+
+const textureLoader = new THREE.TextureLoader(loadingManager);
+
+const matcapTextureBlue = textureLoader.load("/textures/yellow.jpg");
+const matcapTextureRed = textureLoader.load("/textures/rougee.jpg");
+const matcapTextureYellow = textureLoader.load("/textures/white.jpg");
 
 // Draco loader
 const dracoLoader = new DRACOLoader();
@@ -225,39 +229,21 @@ dracoLoader.setDecoderPath("draco/");
 const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.setDRACOLoader(dracoLoader);
 
-// button.addEventListener("click", () => {
-//   // button.classList.add("hidden");
-//   // author.classList.add("hidden");
-// });
+let model;
+gltfLoader.load("/models/tata.glb", (gltf) => {
+  model = gltf.scene;
+  let newMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTextureYellow });
+  model.traverse((o) => {
+    if (o.isMesh) o.material = newMaterial;
+  });
 
-gltfLoader.load("/models/final.glb", (gltf) => {
-  console.log(gltf.scene.children);
-
-  // camera.position.set(gltf.scene.children[0].position);
-
-  gltf.scene.position.set(0, 100, 0);
+  gltf.scene.position.set(10, 20, 0);
   scene.add(gltf.scene);
 });
 
-/**
- * Lights
- */
-
-// Ambient light
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-scene.add(ambientLight);
-
-// Directional light
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-directionalLight.position.set(20, 90, 10);
-
-const helper = new THREE.DirectionalLightHelper(directionalLight, 5);
-scene.add(helper);
-scene.add(directionalLight);
-
 // Geometry
 
-const buildingGeometry = new THREE.BoxBufferGeometry(2, 1, 2);
+const buildingGeometry = new THREE.BoxBufferGeometry(4, 1, 4);
 buildingGeometry.translate(0, 0.5, 0);
 
 /**
@@ -266,21 +252,23 @@ buildingGeometry.translate(0, 0.5, 0);
 const FloorMaterial = new THREE.MeshStandardMaterial();
 FloorMaterial.roughness = 0.7;
 
-const buildingMaterial = new THREE.MeshStandardMaterial({ color: "red" });
+const buildingMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTextureRed });
 
 /**
  * Input Range
  */
 
-const range = document.querySelector(".range-input");
+const rangeInput = document.querySelector(".range-input");
 const buildings = [];
 
-range.addEventListener("input", (e) => {
+rangeInput.addEventListener("input", (e) => {
   const newBuildings = [...buildings];
+
+  if (selected) m2.innerHTML = Object.values(data[selected].prices[e.target.value])[0] + "€";
 
   for (let i = 0; i < newBuildings.length; i++) {
     let newValue = Object.values(data[i].prices[e.target.value])[0];
-    let newValueRatio = newValue / 100;
+    let newValueRatio = newValue / 130;
     // newBuildings[i].scale.y = newValueRatio;
 
     gsap.to(newBuildings[i].scale, { duration: 1.4, y: newValueRatio });
@@ -288,12 +276,14 @@ range.addEventListener("input", (e) => {
 });
 
 for (let i = 0; i < data.length; i++) {
+  let name = i;
   const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+  building.name = i;
 
   building.position.x = positions[i].x;
 
-  building.position.y = 9;
-  building.scale.y = Object.values(data[i].prices[0])[0] / 100;
+  building.position.y = 25;
+  building.scale.y = Object.values(data[i].prices[0])[0] / 130;
 
   building.position.z = positions[i].z;
   scene.add(building);
@@ -316,25 +306,29 @@ const sizes = {
   height: window.innerHeight,
 };
 
-let intersects;
+function onPointerMove(event) {
+  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
 
-// window.addEventListener("click", (event) => {
-//   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-//   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+document.addEventListener("mousemove", onPointerMove);
 
-//   for (let i = 0; i < intersects.length; i++) {
-//     if (intersects[i].object.name) {
-//       let test = intersects[0].point.x;
-//       let testz = intersects[0].point.z;
+const mouseDown = () => {
+  if (INTERSECTED) {
+    selected = INTERSECTED.name;
 
-//       gsap.fromTo(
-//         camera.position,
-//         { x: camera.position.x, z: camera.position.z },
-//         { duration: 2, x: test, y: 70, z: testz }
-//       );
-//     }
-//   }
-// });
+    buildings[selected].material.matcap = matcapTextureBlue;
+
+    arrondissement.innerHTML = selected + 1;
+
+    let machin = data[INTERSECTED.name];
+
+    m2.innerHTML = Object.values(machin.prices[rangeInput.value])[0] + "€";
+    population.innerHTML = machin.population;
+  }
+};
+
+document.addEventListener("mousedown", mouseDown);
 
 window.addEventListener("resize", () => {
   // Update sizes
@@ -346,7 +340,6 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
 
   // Update renderer
-  // renderer.setClearColor(debugObject.clearColor);
 
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -358,17 +351,19 @@ window.addEventListener("resize", () => {
 
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
-camera.position.x = 1;
-camera.position.y = 30;
-camera.position.z = 200;
+camera.position.x = 70;
+camera.position.y = 125;
+camera.position.z = 170;
 scene.add(camera);
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.minDistance = 50;
-controls.maxDistance = 250;
-controls.maxPolarAngle = Math.PI / 2.3;
+controls.minDistance = 150;
+controls.maxDistance = 200;
+controls.maxPolarAngle = Math.PI / 2.6;
+
+const raycaster = new THREE.Raycaster();
 
 /**
  * Renderer
@@ -393,42 +388,58 @@ const tick = () => {
 
   controls.update();
 
-  // if (sceneReady) {
-  //   for (const point of points) {
-  //     const screenPosition = point.position.clone();
-  //     screenPosition.project(camera);
+  raycaster.setFromCamera(pointer, camera);
 
-  //     raycaster.setFromCamera(screenPosition, camera);
-  //     const intersects = raycaster.intersectObjects(scene.children, true);
+  var intersects = raycaster.intersectObjects(buildings),
+    material;
 
-  //     if (intersects.length === 0) {
-  //       point.element.classList.add("visible");
-  //     } else {
-  //       const intersectionDistance = intersects[0].distance;
-  //       const pointDistance = point.position.distanceTo(camera.position);
+  if (intersects.length > 0) {
+    document.querySelector("html,body").style.cursor = "pointer";
 
-  //       if (intersectionDistance < pointDistance) {
-  //         point.element.classList.remove("visible");
-  //       } else {
-  //         point.element.classList.add("visible");
-  //       }
-  //     }
+    if (INTERSECTED != intersects[0].object) {
+      if (INTERSECTED) {
+        material = INTERSECTED.material.clone();
+        INTERSECTED.material = material;
+        if (material.emissive) {
+          INTERSECTED.material.matcap = matcapTextureRed;
+        } else {
+          INTERSECTED.material.matcap = matcapTextureRed;
+        }
+      }
+      INTERSECTED = intersects[0].object;
+      material = INTERSECTED.material.clone();
+      INTERSECTED.material = material;
 
-  //     const translateX = screenPosition.x * sizes.width * 0.5;
-  //     const translateY = -screenPosition.y * sizes.height * 0.5;
-  //     point.element.style.transform = `translateX(${translateX}px) translateY(${translateY}px)`;
-  //   }
-  // }
+      if (material.emissive) {
+        INTERSECTED.material.matcap = matcapTextureRed;
+        material.matcap = matcapTextureBlue;
+      } else {
+        INTERSECTED.material.matcap = matcapTextureRed;
+        material.matcap = matcapTextureBlue;
+      }
+    }
+  } else {
+    document.querySelector("html,body").style.cursor = "default";
 
-  // update the picking ray with the camera and mouse position
-  // raycaster.setFromCamera(mouse, camera);
+    if (INTERSECTED) {
+      material = INTERSECTED.material;
 
-  // calculate objects intersecting the picking ray
-  // intersects = raycaster.intersectObjects(scene.children);
+      if (material.emissive) {
+        INTERSECTED.material.matcap = matcapTextureRed;
+      } else {
+        INTERSECTED.material.matcap = matcapTextureRed;
+      }
+    }
+
+    INTERSECTED = null;
+  }
+
+  if (selected) {
+    buildings[selected].material.matcap = matcapTextureBlue;
+  }
 
   // Render
   renderer.render(scene, camera);
-
   // Call tick again on the next frame
   window.requestAnimationFrame(tick);
 };

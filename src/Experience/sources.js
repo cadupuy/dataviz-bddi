@@ -1,7 +1,7 @@
 export default [
   {
-    name: "arbres_test",
+    name: "city_base",
     type: "gltfModel",
-    path: "models/arbres_test.glb",
+    path: "models/city_base.glb",
   },
 ];

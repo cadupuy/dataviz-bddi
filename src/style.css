@@ -15,10 +15,37 @@ body {
   outline: none;
 }
 
+.prix {
+  margin: 15px 0;
+  font-size: 20px;
+}
+
+.nombre {
+  font-size: 20px;
+}
+
+.titleLoader {
+  position: absolute;
+  top: 30%;
+  right: 28vw;
+  color: white;
+  min-width: 700px;
+  font-size: 120px;
+  font-family: "Staatliches", cursive;
+  transition-delay: 0.5s;
+  transition: all 0.7s ease-in-out;
+}
+
+.titleLoader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .pourcent {
   position: absolute;
   top: 55%;
   left: 85%;
+  opacity: 0;
   color: white;
   font-size: 60px;
   font-family: "Space Grotesk", sans-serif;
@@ -33,7 +60,7 @@ body {
 .controlsContainer {
   position: absolute;
   display: flex;
-  left: 80px;
+  left: 120px;
   top: 40px;
   transition: all 0.7s ease-in;
   transition-delay: 0.8s;
@@ -43,17 +70,18 @@ body {
 }
 
 .title {
-  line-height: 30px;
+  line-height: 40px;
   color: white;
   margin-bottom: 30px;
   visibility: hidden;
   opacity: 0;
-  font-size: 30px;
+  font-size: 40px;
   font-family: "Staatliches", cursive;
   transition: all 0.7s ease-in;
   transition-delay: 0.8s;
   text-align: center;
   font-weight: 700;
+  margin-left: -63px;
 }
 
 .title.visible {
@@ -81,6 +109,8 @@ body {
 
 .range-output {
   margin-top: 30px;
+  width: 100px;
+  margin-left: 10px;
 }
 .slider {
   position: relative;
@@ -213,7 +243,7 @@ body {
   font-size: 40px;
   font-family: "Space Grotesk", sans-serif;
   font-weight: bold;
-  margin-left: -32px;
+  margin-left: -37px;
 }
 
 .content {
@@ -228,8 +258,8 @@ body {
   opacity: 0;
   transition: all 0.6s ease-in-out;
   background-color: rgba(0, 0, 0, 0.6);
-  padding: 18px;
-  border-radius: 3px;
+  padding: 22px;
+  border-radius: 6px;
 }
 
 .content.visible {
@@ -246,6 +276,7 @@ body {
   font-weight: bold;
   font-size: 30px;
   font-family: "Space Grotesk", sans-serif;
+  text-decoration: underline;
 }
 
 .population {

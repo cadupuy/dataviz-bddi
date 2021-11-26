@@ -193,6 +193,7 @@ const loadingBarElement = document.querySelector(".loading-bar");
 const author = document.querySelector(".author");
 const range = document.querySelector(".range");
 const pourcent = document.querySelector(".pourcent");
+const titleLoader = document.querySelector(".titleLoader");
 const title = document.querySelector(".title");
 const contentText = document.querySelector(".content");
 
@@ -212,6 +213,8 @@ loadingManager.onLoad = function () {
     loadingBarElement.classList.add("ended");
     loadingBarElement.style.transform = "";
     pourcent.classList.add("hidden");
+    titleLoader.classList.add("hidden");
+
     title.classList.add("visible");
 
     range.classList.add("visible");
@@ -231,8 +234,8 @@ loadingManager.onError = function (url) {
 
 const textureLoader = new THREE.TextureLoader(loadingManager);
 
-const matcapTextureBlue = textureLoader.load("/textures/yellow.jpg");
-const matcapTextureRed = textureLoader.load("/textures/rougee.jpg");
+const matcapTextureBlue = textureLoader.load("/textures/hover.jpg");
+const matcapTextureRed = textureLoader.load("/textures/rouge.jpg");
 const matcapTextureYellow = textureLoader.load("/textures/metal.jpg");
 
 // Draco loader
@@ -287,8 +290,12 @@ rangeInput.addEventListener("input", (e) => {
 
   if (selected) m2.innerHTML = Object.values(data[selected].prices[e.target.value])[0] + "€";
 
+  // .toString()
+  // .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "€";
+
   for (let i = 0; i < newBuildings.length; i++) {
     let newValue = Object.values(data[i].prices[e.target.value])[0];
+
     let newValueRatio = newValue / 130;
     // newBuildings[i].scale.y = newValueRatio;
 
@@ -347,15 +354,18 @@ const mouseDown = () => {
     model.children[selected].material.matcap = matcapTextureBlue;
 
     if (selected == 0) {
-      arrondissement.innerHTML = selected + 1 + "er";
+      arrondissement.innerHTML = selected + 1 + "er :";
     } else {
-      arrondissement.innerHTML = selected + 1 + "ème";
+      arrondissement.innerHTML = selected + 1 + "ème :";
     }
 
     let machin = data[selected];
 
-    m2.innerHTML = Object.values(machin.prices[rangeInput.value])[0] + "€";
-    population.innerHTML = machin.population;
+    m2.innerHTML =
+      Object.values(machin.prices[rangeInput.value])[0]
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "€";
+    population.innerHTML = machin.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 };
 

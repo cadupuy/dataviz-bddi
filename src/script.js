@@ -288,17 +288,15 @@ rangeInput.addEventListener("input", (e) => {
   setBar();
   const newBuildings = [...buildings];
 
-  if (selected) m2.innerHTML = Object.values(data[selected].prices[e.target.value])[0] + "€";
-
-  // .toString()
-  // .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "€";
+  if (selected)
+    m2.innerHTML =
+      Object.values(data[selected].prices[e.target.value])[0]
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "€";
 
   for (let i = 0; i < newBuildings.length; i++) {
     let newValue = Object.values(data[i].prices[e.target.value])[0];
-
     let newValueRatio = newValue / 130;
-    // newBuildings[i].scale.y = newValueRatio;
-
     gsap.to(newBuildings[i].scale, { duration: 1.4, y: newValueRatio });
   }
 });

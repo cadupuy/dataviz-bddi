@@ -45,8 +45,8 @@ body {
   position: absolute;
   top: 55%;
   left: 85%;
-  opacity: 0;
   color: white;
+  opacity: 0;
   font-size: 60px;
   font-family: "Space Grotesk", sans-serif;
   transition-delay: 0.5s;
@@ -55,6 +55,7 @@ body {
 
 .pourcent.hidden {
   opacity: 0;
+  visibility: hidden;
 }
 
 .controlsContainer {

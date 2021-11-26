@@ -9,6 +9,21 @@ import data from "../data.json";
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
+const rangeInput = document.querySelector(".range-input");
+const fill = document.querySelector(".bar .fill");
+
+let percent;
+
+const setBar = () => {
+  let min = parseInt(rangeInput.attributes.min);
+  let max = parseInt(rangeInput.attributes.max);
+  let value = parseInt(rangeInput.value);
+  percent = ((value - min) / (max - min)) * 100;
+
+  fill.style.height = percent + "%";
+};
+rangeInput.addEventListener("input", setBar());
+
 const pointer = new THREE.Vector2();
 
 let content = document.querySelector(".content");
@@ -24,83 +39,83 @@ let selected;
 
 const positions = [
   {
-    x: 0,
-    z: 0,
+    x: -3,
+    z: -2,
   },
   {
     x: 7,
     z: -17,
   },
   {
-    x: 30,
-    z: 0,
+    x: 34,
+    z: -9,
   },
   {
-    x: 40,
-    z: 25,
+    x: 32,
+    z: 10,
   },
   {
-    x: 20,
-    z: 40,
-  },
-  {
-    x: 0,
+    x: 18,
     z: 35,
   },
   {
-    x: -30,
-    z: 20,
+    x: -8,
+    z: 27,
   },
   {
-    x: -30,
-    z: -15,
+    x: -35,
+    z: 9,
+  },
+  {
+    x: -43,
+    z: -32,
   },
   {
     x: 5,
     z: -35,
   },
   {
-    x: 40,
-    z: -25,
+    x: 36,
+    z: -37,
   },
   {
-    x: 65,
-    z: 5,
+    x: 59,
+    z: 1,
   },
   {
-    x: 70,
-    z: 35,
+    x: 88,
+    z: 50,
   },
   {
-    x: 40,
-    z: 80,
+    x: 30,
+    z: 62,
   },
   {
-    x: 0,
-    z: 75,
+    x: -13,
+    z: 68,
   },
   {
-    x: -60,
-    z: 55,
+    x: -49,
+    z: 47,
   },
   {
     x: -100,
     z: 25,
   },
   {
-    x: -30,
-    z: -50,
+    x: -56,
+    z: -53,
   },
   {
-    x: 25,
-    z: -65,
+    x: 12,
+    z: -75,
   },
   {
-    x: 70,
-    z: -50,
+    x: 69,
+    z: -64,
   },
   {
-    x: 95,
+    x: 87,
     z: 0,
   },
 ];
@@ -185,7 +200,7 @@ const loadingManager = new THREE.LoadingManager();
 loadingManager.onStart = function (url, itemsLoaded, itemsTotal) {
   let pourcentCalcul = (itemsLoaded / itemsTotal) * 100;
   let pourcentCalculRounded = Number(Math.round(pourcentCalcul));
-  pourcent.innerHTML = pourcentCalculRounded.toFixed(0) + "%";
+  pourcent.innerHTML = pourcentCalculRounded + "%";
 };
 
 loadingManager.onLoad = function () {
@@ -198,7 +213,6 @@ loadingManager.onLoad = function () {
     loadingBarElement.style.transform = "";
     pourcent.classList.add("hidden");
     title.classList.add("visible");
-    contentText.classList.add("visible");
 
     range.classList.add("visible");
     author.classList.add("visible");
@@ -208,7 +222,7 @@ loadingManager.onLoad = function () {
 loadingManager.onProgress = function (url, itemsLoaded, itemsTotal) {
   const progressRatio = itemsLoaded / itemsTotal;
   loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-  pourcent.innerHTML = (itemsLoaded / itemsTotal) * 100 + "%";
+  pourcent.innerHTML = Math.round((itemsLoaded / itemsTotal) * 100) + "%";
 };
 
 loadingManager.onError = function (url) {
@@ -219,7 +233,7 @@ const textureLoader = new THREE.TextureLoader(loadingManager);
 
 const matcapTextureBlue = textureLoader.load("/textures/yellow.jpg");
 const matcapTextureRed = textureLoader.load("/textures/rougee.jpg");
-const matcapTextureYellow = textureLoader.load("/textures/white.jpg");
+const matcapTextureYellow = textureLoader.load("/textures/metal.jpg");
 
 // Draco loader
 const dracoLoader = new DRACOLoader();
@@ -230,12 +244,19 @@ const gltfLoader = new GLTFLoader(loadingManager);
 gltfLoader.setDRACOLoader(dracoLoader);
 
 let model;
-gltfLoader.load("/models/tata.glb", (gltf) => {
+gltfLoader.load("/models/jazz.glb", (gltf) => {
   model = gltf.scene;
   let newMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTextureYellow });
   model.traverse((o) => {
     if (o.isMesh) o.material = newMaterial;
   });
+
+  let sortedArray = model.children.sort(function (a, b) {
+    return Number(a.name) - Number(b.name);
+  });
+  console.log(sortedArray);
+
+  model.children = [...sortedArray];
 
   gltf.scene.position.set(10, 20, 0);
   scene.add(gltf.scene);
@@ -258,10 +279,10 @@ const buildingMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTextureRed
  * Input Range
  */
 
-const rangeInput = document.querySelector(".range-input");
 const buildings = [];
 
 rangeInput.addEventListener("input", (e) => {
+  setBar();
   const newBuildings = [...buildings];
 
   if (selected) m2.innerHTML = Object.values(data[selected].prices[e.target.value])[0] + "€";
@@ -276,7 +297,6 @@ rangeInput.addEventListener("input", (e) => {
 });
 
 for (let i = 0; i < data.length; i++) {
-  let name = i;
   const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
   building.name = i;
 
@@ -314,14 +334,25 @@ function onPointerMove(event) {
 document.addEventListener("mousemove", onPointerMove);
 
 const mouseDown = () => {
-  if (INTERSECTED) {
-    selected = INTERSECTED.name;
+  if (INTERSECTED && model.children) {
+    contentText.classList.add("visible");
 
-    buildings[selected].material.matcap = matcapTextureBlue;
+    let prev;
+    if (selected) prev = Number(selected);
 
-    arrondissement.innerHTML = selected + 1;
+    selected = Number(INTERSECTED.name);
 
-    let machin = data[INTERSECTED.name];
+    if (prev) model.children[prev].material.matcap = matcapTextureYellow;
+
+    model.children[selected].material.matcap = matcapTextureBlue;
+
+    if (selected == 0) {
+      arrondissement.innerHTML = selected + 1 + "er";
+    } else {
+      arrondissement.innerHTML = selected + 1 + "ème";
+    }
+
+    let machin = data[selected];
 
     m2.innerHTML = Object.values(machin.prices[rangeInput.value])[0] + "€";
     population.innerHTML = machin.population;
@@ -390,52 +421,58 @@ const tick = () => {
 
   raycaster.setFromCamera(pointer, camera);
 
-  var intersects = raycaster.intersectObjects(buildings),
-    material;
+  if (model && model.children) {
+    var intersects = raycaster.intersectObjects(
+        model.children.sort(function (a, b) {
+          return a - b;
+        })
+      ),
+      material;
 
-  if (intersects.length > 0) {
-    document.querySelector("html,body").style.cursor = "pointer";
+    if (intersects.length > 0) {
+      document.querySelector("html,body").style.cursor = "pointer";
 
-    if (INTERSECTED != intersects[0].object) {
-      if (INTERSECTED) {
+      if (INTERSECTED != intersects[0].object) {
+        if (INTERSECTED) {
+          material = INTERSECTED.material.clone();
+          INTERSECTED.material = material;
+          if (material.emissive) {
+            INTERSECTED.material.matcap = matcapTextureYellow;
+          } else {
+            INTERSECTED.material.matcap = matcapTextureYellow;
+          }
+        }
+        INTERSECTED = intersects[0].object;
         material = INTERSECTED.material.clone();
         INTERSECTED.material = material;
+
         if (material.emissive) {
-          INTERSECTED.material.matcap = matcapTextureRed;
+          INTERSECTED.material.matcap = matcapTextureYellow;
+          material.matcap = matcapTextureBlue;
         } else {
-          INTERSECTED.material.matcap = matcapTextureRed;
+          INTERSECTED.material.matcap = matcapTextureYellow;
+          material.matcap = matcapTextureBlue;
         }
       }
-      INTERSECTED = intersects[0].object;
-      material = INTERSECTED.material.clone();
-      INTERSECTED.material = material;
+    } else {
+      document.querySelector("html,body").style.cursor = "default";
 
-      if (material.emissive) {
-        INTERSECTED.material.matcap = matcapTextureRed;
-        material.matcap = matcapTextureBlue;
-      } else {
-        INTERSECTED.material.matcap = matcapTextureRed;
-        material.matcap = matcapTextureBlue;
+      if (INTERSECTED) {
+        material = INTERSECTED.material;
+
+        if (material.emissive) {
+          INTERSECTED.material.matcap = matcapTextureYellow;
+        } else {
+          INTERSECTED.material.matcap = matcapTextureYellow;
+        }
       }
-    }
-  } else {
-    document.querySelector("html,body").style.cursor = "default";
 
-    if (INTERSECTED) {
-      material = INTERSECTED.material;
-
-      if (material.emissive) {
-        INTERSECTED.material.matcap = matcapTextureRed;
-      } else {
-        INTERSECTED.material.matcap = matcapTextureRed;
-      }
+      INTERSECTED = null;
     }
 
-    INTERSECTED = null;
-  }
-
-  if (selected) {
-    buildings[selected].material.matcap = matcapTextureBlue;
+    if (selected) {
+      model.children[selected].material.matcap = matcapTextureBlue;
+    }
   }
 
   // Render

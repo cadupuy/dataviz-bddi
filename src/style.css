@@ -258,7 +258,8 @@ body {
   opacity: 0;
   transition: all 0.6s ease-in-out;
   background-color: rgba(0, 0, 0, 0.6);
-  padding: 22px;
+  padding: 28px;
+  padding-left: 40px;
   border-radius: 6px;
 }
 

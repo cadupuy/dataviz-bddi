@@ -1,0 +1,81 @@
+@font-face {
+	font-family: 'PP Telegraf Regular';
+	src: url('/fonts/PPTelegraf-Regular.eot');
+	src: url('/fonts/PPTelegraf-Regular.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/PPTelegraf-Regular.woff2') format('woff2'),
+		url('/fonts/PPTelegraf-Regular.woff') format('woff'),
+		url('/fonts/PPTelegraf-Regular.ttf') format('truetype'),
+		url('/fonts/PPTelegraf-Regular.svg#PPTelegraf-Regular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP Telegraf Bold';
+	src: url('/fonts/PPTelegraf-UltraBold.eot');
+	src: url('/fonts/PPTelegraf-UltraBold.eot?#iefix')
+			format('embedded-opentype'),
+		url('/fonts/PPTelegraf-UltraBold.woff2') format('woff2'),
+		url('/fonts/PPTelegraf-UltraBold.woff') format('woff'),
+		url('/fonts/PPTelegraf-UltraBold.ttf') format('truetype'),
+		url('/fonts/PPTelegraf-UltraBold.svg#PPTelegraf-UltraBold')
+			format('svg');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'PP Telegraf Light';
+	src: url('/fonts/PPTelegraf-UltraLight.eot');
+	src: url('/fonts/PPTelegraf-UltraLight.eot?#iefix')
+			format('embedded-opentype'),
+		url('/fonts/PPTelegraf-UltraLight.woff2') format('woff2'),
+		url('/fonts/PPTelegraf-UltraLight.woff') format('woff'),
+		url('/fonts/PPTelegraf-UltraLight.ttf') format('truetype'),
+		url('/fonts/PPTelegraf-UltraLight.svg#PPTelegraf-UltraLight')
+			format('svg');
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Brilliant Cut Pro Regular';
+	src: url('/fonts/BrilliantCutPro-Regular.eot');
+	src: url('/fonts/BrilliantCutPro-Regular.eot?#iefix')
+			format('embedded-opentype'),
+		url('/fonts/BrilliantCutPro-Regular.woff2') format('woff2'),
+		url('/fonts/BrilliantCutPro-Regular.woff') format('woff'),
+		url('/fonts/BrilliantCutPro-Regular.ttf') format('truetype'),
+		url('/fonts/BrilliantCutPro-Regular.svg#BrilliantCutPro-Regular')
+			format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Brilliant Cut Pro';
+	src: url('/fonts/BrilliantCutPro-Bold.eot');
+	src: url('/fonts/BrilliantCutPro-Bold.eot?#iefix')
+			format('embedded-opentype'),
+		url('/fonts/BrilliantCutPro-Bold.woff2') format('woff2'),
+		url('/fonts/BrilliantCutPro-Bold.woff') format('woff'),
+		url('/fonts/BrilliantCutPro-Bold.ttf') format('truetype'),
+		url('/fonts/BrilliantCutPro-Bold.svg#BrilliantCutPro-Bold')
+			format('svg');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'History Pro';
+	src: url('/fonts/HistoryPro-Two.woff') format('woff'),
+		url('/fonts/HistoryPro-Two.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}

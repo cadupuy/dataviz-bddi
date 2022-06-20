@@ -1,4 +1,5 @@
 import { Raycaster as ThreeRaycaster, TextureLoader } from 'three'
+
 import Experience from './Experience'
 
 export default class Raycaster {
@@ -8,9 +9,6 @@ export default class Raycaster {
 		this.camera = this.experience.camera
 		this.mouse = this.experience.mouse
 		this.resources = this.experience.resources
-
-		// this.matcapM = this.resources.items.hover
-		// this.matcapH = this.resources.items.hover
 		this.textureLoader = new TextureLoader()
 		this.matcapM = this.textureLoader.load('/textures/metal.jpg')
 		this.matcapH = this.textureLoader.load('/textures/hover.jpg')

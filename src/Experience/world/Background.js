@@ -1,8 +1,7 @@
-import * as THREE from 'three'
+import { Mesh, PlaneBufferGeometry, ShaderMaterial, Color } from 'three'
 import Experience from '../Experience.js'
-
-import vertexShader from '../shaders/background.vert'
-import fragmentShader from '../shaders/background.frag'
+import vertexShader from '@shaders/background/background.vert'
+import fragmentShader from '@shaders/background/background.frag'
 
 export default class Background {
 	constructor() {
@@ -14,12 +13,12 @@ export default class Background {
 	setBackground() {
 		// Background
 
-		const myGradient = new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(2, 2, 1, 1),
-			new THREE.ShaderMaterial({
+		const myGradient = new Mesh(
+			new PlaneBufferGeometry(2, 2, 1, 1),
+			new ShaderMaterial({
 				uniforms: {
-					uColorA: { value: new THREE.Color('#000000') },
-					uColorB: { value: new THREE.Color('#7ed6df') }
+					uColorA: { value: new Color('#000000') },
+					uColorB: { value: new Color('#7ed6df') }
 				},
 				vertexShader: vertexShader,
 				fragmentShader: fragmentShader

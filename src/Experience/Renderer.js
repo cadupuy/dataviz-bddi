@@ -1,8 +1,9 @@
 import { sRGBEncoding } from 'three'
 import { WebGLRenderer } from 'three'
-import Experience from './Experience'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+
+import Experience from './Experience'
 
 export default class Renderer {
 	constructor() {
@@ -38,7 +39,6 @@ export default class Renderer {
 	resize() {
 		this.instance.setSize(this.sizes.width, this.sizes.height)
 		this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2))
-		// Update effect composer
 		this.effectComposer.setSize(this.sizes.width, this.sizes.height)
 	}
 

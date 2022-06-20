@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { BoxBufferGeometry, MeshMatcapMaterial, Mesh } from 'three'
 import gsap from 'gsap'
 import Experience from '../Experience.js'
 import data from '../../data.json'
@@ -105,15 +105,15 @@ export default class Bars {
 	setBars() {
 		// Geometry
 
-		const buildingGeometry = new THREE.BoxBufferGeometry(4, 1, 4)
+		const buildingGeometry = new BoxBufferGeometry(4, 1, 4)
 		buildingGeometry.translate(0, 0.5, 0)
 
-		const buildingMaterial = new THREE.MeshMatcapMaterial({
+		const buildingMaterial = new MeshMatcapMaterial({
 			matcap: this.matcap
 		})
 
 		for (let i = 0; i < data.length; i++) {
-			const building = new THREE.Mesh(buildingGeometry, buildingMaterial)
+			const building = new Mesh(buildingGeometry, buildingMaterial)
 			building.name = i
 
 			building.position.x = this.positions[i].x

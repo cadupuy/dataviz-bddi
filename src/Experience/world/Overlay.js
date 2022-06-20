@@ -1,5 +1,8 @@
-import * as THREE from 'three'
+import { PlaneGeometry, ShaderMaterial, Mesh } from 'three'
+
 import Experience from '../Experience.js'
+import vertexShader from '@shaders/overlay/overlay.vert'
+import fragmentShader from '@shaders/overlay/overlay.frag'
 
 export default class Overlay {
 	constructor() {
@@ -9,32 +12,18 @@ export default class Overlay {
 	}
 
 	setOverlay() {
-		// Loading
-
-		const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
-		const overlayMaterial = new THREE.ShaderMaterial({
+		const overlayGeometry = new PlaneGeometry(2, 2, 1, 1)
+		const overlayMaterial = new ShaderMaterial({
 			transparent: true,
 			uniforms: {
 				uAlpha: { value: 1 }
 			},
 
-			vertexShader: `
-        void main()
-        {
-            gl_Position = vec4(position, 1.0);
-        }
-    `,
-			fragmentShader: `
-        uniform float uAlpha;
-
-        void main()
-        {
-            gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
-        }
-    `
+			vertexShader: vertexShader,
+			fragmentShader: fragmentShader
 		})
 
-		const overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
+		const overlay = new Mesh(overlayGeometry, overlayMaterial)
 		this.scene.add(overlay)
 	}
 

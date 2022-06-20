@@ -1,4 +1,4 @@
-import * as THREE from 'three'
+import { Scene } from 'three'
 
 import config from '@utils/config'
 import Debug from '@utils/Debug.js'
@@ -24,7 +24,7 @@ export default class Experience {
 		this.time = new Time()
 		this.mouse = new Mouse()
 		this.items = []
-		this.scene = new THREE.Scene()
+		this.scene = new Scene()
 		this.camera = new Camera()
 		this.resources = new Resources(world)
 		this.raycaster = new Raycaster()
@@ -56,7 +56,6 @@ export default class Experience {
 	}
 
 	update() {
-		// WEBGL
 		this.mouse.update()
 		this.camera.update()
 		if (this.raycaster) this.raycaster.update()

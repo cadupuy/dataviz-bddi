@@ -1,5 +1,5 @@
 import Experience from '../Experience.js'
-import * as THREE from 'three'
+import { MeshMatcapMaterial } from 'three'
 
 export default class Building {
 	constructor() {
@@ -12,7 +12,7 @@ export default class Building {
 	}
 
 	setModel() {
-		let newMaterial = new THREE.MeshMatcapMaterial({ matcap: this.matcap })
+		let newMaterial = new MeshMatcapMaterial({ matcap: this.matcap })
 
 		this.paris.scene.traverse((o) => {
 			if (o.isMesh) {

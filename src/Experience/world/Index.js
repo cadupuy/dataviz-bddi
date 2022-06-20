@@ -1,6 +1,6 @@
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { TextureLoader } from 'three'
 
-import * as THREE from 'three'
 import gsap from 'gsap'
 import data from '../../data.json'
 import config from '@utils/config'
@@ -20,8 +20,8 @@ export default class World {
 		this.resources = this.experience.resources
 		this.camera = this.experience.camera
 		this.raycaster = this.experience.raycaster
-		this.textureLoader = new THREE.TextureLoader()
 
+		this.textureLoader = new TextureLoader()
 		this.matcapMetal = this.textureLoader.load('/textures/metal.jpg')
 		this.matcapHover = this.textureLoader.load('/textures/hover.jpg')
 
@@ -33,15 +33,17 @@ export default class World {
 		this.titleLoader = document.querySelector('.titleLoader')
 		this.title = document.querySelector('.title')
 		this.contentText = document.querySelector('.content')
-		this.percent
 		this.rangeInput = document.querySelector('.range-input')
 		this.content = document.querySelector('.content')
 		this.arrondissement = document.querySelector('.arrondissement')
 		this.population = document.querySelector('.population')
 		this.m2 = document.querySelector('.m2')
+
+		this.percent = null
+		this.selected = null
+
 		this.setPostProcessing()
 		this.debugComposer()
-		this.selected
 
 		this.resources.on('ready', () => {
 			this.environment = new Environment()

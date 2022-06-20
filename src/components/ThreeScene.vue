@@ -22,4 +22,54 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.titleLoader {
+	position: absolute;
+	top: 30%;
+	right: 28vw;
+	color: white;
+	min-width: 700px;
+	font-size: 120px;
+	font-family: 'Staatliches', cursive;
+	transition-delay: 0.5s;
+	transition: all 0.7s ease-in-out;
+}
+
+.titleLoader.hidden {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.loading-bar {
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	height: 2px;
+	background: #ffffff;
+	transform: scaleX(0);
+	transform-origin: top left;
+	transition: transform 0.5s;
+}
+
+.loading-bar.ended {
+	transform: scaleX(0);
+	transform-origin: 100% 0;
+	transition: transform 1.5s ease-in-out;
+}
+
+.pourcent {
+	position: absolute;
+	top: 55%;
+	left: 85%;
+	color: white;
+	font-size: 60px;
+	font-family: 'Space Grotesk', sans-serif;
+	transition-delay: 0.5s;
+	transition: all 0.7s ease-in-out;
+}
+
+.pourcent.hidden {
+	opacity: 0;
+	visibility: hidden;
+}
+</style>

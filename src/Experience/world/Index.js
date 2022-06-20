@@ -20,8 +20,11 @@ export default class World {
 		this.resources = this.experience.resources
 		this.camera = this.experience.camera
 		this.raycaster = this.experience.raycaster
-		this.matcapMetal = this.resources.items.metal
-		this.matcapHover = this.resources.items.hover
+		this.textureLoader = new THREE.TextureLoader()
+
+		this.matcapMetal = this.textureLoader.load('/textures/metal.jpg')
+		this.matcapHover = this.textureLoader.load('/textures/hover.jpg')
+
 		this.fill = document.querySelector('.bar .fill')
 		this.loadingBarElement = document.querySelector('.loading-bar')
 		this.author = document.querySelector('.author')
@@ -93,6 +96,8 @@ export default class World {
 			this.building.paris.scene.children[prev].material.matcap =
 				this.matcapMetal
 		}
+
+		console.log(this.matcapMetal)
 
 		this.building.paris.scene.children[
 			this.raycaster.selected

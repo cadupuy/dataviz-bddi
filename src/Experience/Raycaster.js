@@ -38,7 +38,7 @@ export default class Raycaster {
 		if (intersects.length > 0) {
 			document.querySelector('html,body').style.cursor = 'pointer'
 
-			if (this.currentIntersect != intersects[0].object) {
+			if (this.currentIntersect !== intersects[0].object) {
 				if (this.currentIntersect) {
 					material = this.currentIntersect.material.clone()
 					this.currentIntersect.material = material
@@ -67,11 +67,7 @@ export default class Raycaster {
 			if (this.currentIntersect) {
 				material = this.currentIntersect.material
 
-				if (material.emissive) {
-					this.currentIntersect.material.matcap = this.matcapM
-				} else {
-					this.currentIntersect.material.matcap = this.matcapM
-				}
+				this.currentIntersect.material.matcap = this.matcapM
 			}
 
 			this.currentIntersect = null

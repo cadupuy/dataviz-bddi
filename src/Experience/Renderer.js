@@ -21,9 +21,7 @@ export default class Renderer {
 			canvas: this.canvas,
 			antialias: true
 		})
-		// IF GLTF MODEL IS USED
 		this.instance.outputEncoding = sRGBEncoding
-		// this.instance.setClearColor('#ffffff')
 		this.instance.setSize(this.sizes.width, this.sizes.height)
 		this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2))
 	}
@@ -45,7 +43,6 @@ export default class Renderer {
 	}
 
 	update() {
-		// this.instance.render(this.scene, this.camera.instance)
 		this.effectComposer.render()
 	}
 }
